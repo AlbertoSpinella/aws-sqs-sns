@@ -14,7 +14,7 @@ const sqs = new AWS.SQS({ apiVersion: "2021-11-05" });
 export const listQueues = (req, res) => {
     try {
         sqs.listQueues({}, (err, data) => {
-            if (err) return res.status(500).send(err);
+            if (err) return res.status(500).send({listQueuesErr: err});
             return res.send(data);
         });
     } catch (err) {
@@ -29,7 +29,7 @@ export const getQueueUrl = (req, res) => {
             QueueName
         }
         sqs.getQueueUrl(params, (err, data) => {
-            if (err) return res.status(500).send(err);
+            if (err) return res.status(500).send({getQueueUrlErr: err});
             return res.send(data);
         });
     } catch (err) {
@@ -46,7 +46,7 @@ export const sendMessage = (req, res) => {
             MessageBody
         }
         sqs.sendMessage(params, (err, data) => {
-            if (err) return res.status(500).send(err);
+            if (err) return res.status(500).send({sendMessageErr: err});
             return res.send({sentData: data});
         });
     } catch (err) {
@@ -62,7 +62,7 @@ export const receiveMessage = (req, res) => {
             QueueUrl
         }
         sqs.receiveMessage(params, async (err, data) => {
-            if (err) return res.status(500).send(err);
+            if (err) return res.status(500).send({receiveMessageErr: err});
             if (data.Messages) {
                 const deleteParams = {
                     QueueUrl,
@@ -72,7 +72,7 @@ export const receiveMessage = (req, res) => {
                 await addToFile(data.Messages[0]);
 
                 sqs.deleteMessage(deleteParams, (delErr, delData) => {
-                    if (delErr) return res.status(500).send(delErr);
+                    if (delErr) return res.status(500).send({deleteMessageErr: delErr});
                     console.log(delData);
                     return res.send({deletedData: delData});
                 })
