@@ -42,3 +42,6 @@ Content-Type: application/json
     ],
     "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/sqs-attempt"
 }
+
+### listStoredMessages
+GET http://localhost:3000/sqs/listStoredMessages HTTP/1.1

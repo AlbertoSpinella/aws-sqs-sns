@@ -2,7 +2,8 @@ import {
     listQueues,
     getQueueUrl,
     sendMessage,
-    receiveMessage
+    receiveMessage,
+    listStoredMessages
 } from "./controller.js";
 
 export const listQueuesOpts = {
@@ -19,4 +20,8 @@ export const sendMessageOpts = {
 
 export const receiveMessageOpts = {
     handler: receiveMessage
+};
+
+export const listStoredMessagesOpts = {
+    handler: listStoredMessages
 };

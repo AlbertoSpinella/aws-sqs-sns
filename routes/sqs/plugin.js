@@ -2,7 +2,8 @@ import {
     listQueuesOpts,
     getQueueUrlOpts,
     sendMessageOpts,
-    receiveMessageOpts
+    receiveMessageOpts,
+    listStoredMessagesOpts
 } from "./schema.js";
 
 export const sqsPlugin = (fastify, options, done) => {
@@ -11,6 +12,7 @@ export const sqsPlugin = (fastify, options, done) => {
         fastify.post("/getQueueUrl", getQueueUrlOpts);
         fastify.post("/sendMessage", sendMessageOpts);
         fastify.post("/receiveMessage", receiveMessageOpts);
+        fastify.get("/listStoredMessages", listStoredMessagesOpts);
 
         done();
     } catch (err) {
