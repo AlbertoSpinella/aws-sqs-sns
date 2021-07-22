@@ -1,0 +1,44 @@
+### listQueues
+GET http://localhost:3000/sqs/listQueues HTTP/1.1
+
+### getQueueUrl
+POST http://localhost:3000/sqs/getQueueUrl HTTP/1.1
+Content-Type: application/json
+
+{
+    "QueueName": "sqs-attempt"
+}
+
+### sendMessage
+POST http://localhost:3000/sqs/sendMessage HTTP/1.1
+Content-Type: application/json
+
+{
+    "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/sqs-attempt",
+    "MessageAttributes": {
+        "Title": {
+            "DataType": "String",
+            "StringValue": "The Whistler"
+        },
+        "Author": {
+            "DataType": "String",
+            "StringValue": "John Grisham"
+        },
+        "WeeksOn": {
+            "DataType": "Number",
+            "StringValue": "6"
+        }
+    },
+    "MessageBody": "Information about current NY Times fiction bestseller for week of 12/11/2016."
+}
+
+### receiveMessage
+POST http://localhost:3000/sqs/receiveMessage HTTP/1.1
+Content-Type: application/json
+
+{
+    "MessageAttributeNames": [
+        "All"
+    ],
+    "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/sqs-attempt"
+}
