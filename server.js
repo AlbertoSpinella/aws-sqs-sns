@@ -2,6 +2,7 @@ import server  from "fastify";
 const fastify = server();
 import fastifySwagger from "fastify-swagger";
 import { sqsPlugin } from "./routes/sqs/plugin.js";
+import { snsPlugin } from "./routes/sns/plugin.js";
 
 fastify.register(fastifySwagger, {
     exposeRoute: true,
@@ -12,7 +13,11 @@ fastify.register(fastifySwagger, {
 });
 
 fastify.register(sqsPlugin, {
-    prefix: "/sqs"
+    prefix: "/queue"
+});
+
+fastify.register(snsPlugin, {
+    prefix: "/notification"
 });
 
 

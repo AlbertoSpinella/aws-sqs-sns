@@ -1,20 +1,20 @@
 ### listQueues
-GET http://localhost:3000/sqs/listQueues HTTP/1.1
+GET http://localhost:3000/queue/listQueues HTTP/1.1
 
 ### getQueueUrl
-POST http://localhost:3000/sqs/getQueueUrl HTTP/1.1
+POST http://localhost:3000/queue/getQueueUrl HTTP/1.1
 Content-Type: application/json
 
 {
-    "QueueName": "sqs-attempt"
+    "QueueName": "q_ps"
 }
 
 ### sendMessage
-POST http://localhost:3000/sqs/sendMessage HTTP/1.1
+POST http://localhost:3000/queue/sendMessage HTTP/1.1
 Content-Type: application/json
 
 {
-    "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/sqs-attempt",
+    "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/q_ps",
     "MessageAttributes": {
         "Title": {
             "DataType": "String",
@@ -33,15 +33,15 @@ Content-Type: application/json
 }
 
 ### receiveMessage
-POST http://localhost:3000/sqs/receiveMessage HTTP/1.1
+POST http://localhost:3000/queue/receiveMessage HTTP/1.1
 Content-Type: application/json
 
 {
     "MessageAttributeNames": [
         "All"
     ],
-    "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/sqs-attempt"
+    "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/q_ps"
 }
 
 ### listStoredMessages
-GET http://localhost:3000/sqs/listStoredMessages HTTP/1.1
+GET http://localhost:3000/queue/listStoredMessages HTTP/1.1

@@ -1,0 +1,2 @@
+### publish
+GET http://localhost:3000/notification/publish HTTP/1.1

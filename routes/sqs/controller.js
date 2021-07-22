@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
-import AWS from "aws-sdk";
 import { addToFile, readFromFile } from "../../libs/rwFile.js";
+
+import AWS from "aws-sdk";
 
 AWS.config.update({
     accessKeyId: process.env.accessKeyId,
