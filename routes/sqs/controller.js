@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { addToFile, readFromFile } from "../../libs/rwFile.js";
 
 import AWS from "aws-sdk";
 
@@ -55,6 +54,24 @@ export const sendMessage = (req, res) => {
     }
 };
 
+export const sendMessageFifo = (req, res) => {
+    try {
+        const { QueueUrl, MessageGroupId, MessageAttributes, MessageBody } = req.body;
+        const params = {
+            QueueUrl,
+            MessageGroupId,
+            MessageAttributes,
+            MessageBody
+        }
+        sqs.sendMessage(params, (err, data) => {
+            if (err) return res.status(500).send({sendMessageErr: err});
+            return res.send({sentData: data});
+        });
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const receiveMessage = (req, res) => {
     try {
         const { MessageAttributeNames, QueueUrl } = req.body;
@@ -64,31 +81,21 @@ export const receiveMessage = (req, res) => {
         }
         sqs.receiveMessage(params, async (err, data) => {
             if (err) return res.status(500).send({receiveMessageErr: err});
-            if (data.Messages) {
+            if (data.Messages != undefined) {
                 const deleteParams = {
                     QueueUrl,
                     ReceiptHandle: data.Messages[0].ReceiptHandle
                 };
 
-                await addToFile(data.Messages[0]);
+                console.log({message: data.Messages[0]});
 
-                sqs.deleteMessage(deleteParams, (delErr, delData) => {
+                return sqs.deleteMessage(deleteParams, (delErr, delData) => {
                     if (delErr) return res.status(500).send({deleteMessageErr: delErr});
-                    console.log(delData);
                     return res.send({deletedData: delData});
-                })
+                });
             }
-            return res.send(data);
+            return res.status(500).send("Unable to delete");
         });
-    } catch (err) {
-        throw err;
-    }
-};
-
-export const listStoredMessages = async (req, res) => {
-    try {
-        const content = await readFromFile();
-        return res.send(content);
     } catch (err) {
         throw err;
     }

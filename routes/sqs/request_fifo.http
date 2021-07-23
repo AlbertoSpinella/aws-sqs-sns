@@ -6,30 +6,31 @@ POST http://localhost:3000/queue/getQueueUrl HTTP/1.1
 Content-Type: application/json
 
 {
-    "QueueName": "q_ps"
+    "QueueName": "fifo_queue.fifo"
 }
 
 ### sendMessage
-POST http://localhost:3000/queue/sendMessage HTTP/1.1
+POST http://localhost:3000/queue/sendMessageFifo HTTP/1.1
 Content-Type: application/json
 
 {
-    "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/q_ps",
+    "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/fifo_queue.fifo",
+    "MessageGroupId": "newgroup",
     "MessageAttributes": {
         "Title": {
             "DataType": "String",
-            "StringValue": "The Whistler"
+            "StringValue": "The Whistlerr"
         },
         "Author": {
             "DataType": "String",
-            "StringValue": "John Grisham"
+            "StringValue": "John Grishamm"
         },
         "WeeksOn": {
             "DataType": "Number",
-            "StringValue": "6"
+            "StringValue": "66"
         }
     },
-    "MessageBody": "Information about current NY Times fiction bestseller for week of 12/11/2016."
+    "MessageBody": "Informationn about current NY Times fiction bestseller for week of 12/11/2016."
 }
 
 ### receiveMessage
@@ -40,5 +41,5 @@ Content-Type: application/json
     "MessageAttributeNames": [
         "All"
     ],
-    "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/q_ps"
+    "QueueUrl": "https://sqs.eu-central-1.amazonaws.com/201448095557/fifo_queue.fifo"
 }
